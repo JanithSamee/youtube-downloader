@@ -125,7 +125,7 @@ export default function Home() {
                                 </div>
                             </div>
                         </Show>
-                        {formats().length > 0 && (
+                        {formats() && formats().length > 0 && (
                             <div class="card mt-3">
                                 <div class="card-body">
                                     <h5 class="card-title">

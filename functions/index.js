@@ -19,7 +19,6 @@ app.get("/api/download", (req, res) => {
         noCheckCertificates: true,
         noWarnings: true,
         preferFreeFormats: true,
-        format: "mp4",
         addHeader: ["referer:youtube.com", "user-agent:googlebot"],
     };
 
@@ -33,8 +32,12 @@ app.get("/api/download", (req, res) => {
 
     youtubeDl(youtubeLink, options)
         .then((output) => {
-            console.log(output);
-            return res.status(200).json(output);
+            const { thumbnail, title, description, channel, formats, ...rest } =
+                output;
+
+            return res
+                .status(200)
+                .json({ thumbnail, title, description, channel });
         })
         .catch((err) => {
             res.status(500).send("Something went wrong!");
