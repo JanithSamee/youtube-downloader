@@ -3,16 +3,19 @@ const express = require("express");
 const youtubeDl = require("youtube-dl-exec");
 const cors = require("cors");
 const serverless = require("serverless-http");
+const bodyParser = require("body-parser");
 
 const app = express();
 
 const port = process.env.PORT;
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 app.use(cors({ origin: "*" }));
 
 app.get("/api/download", (req, res) => {
-    const { videoUrl, videoId } = req.query;
+    const { videoUrl, videoId, format } = req.query;
 
     const options = {
         dumpSingleJson: true,
@@ -35,9 +38,19 @@ app.get("/api/download", (req, res) => {
             const { thumbnail, title, description, channel, formats, ...rest } =
                 output;
 
-            return res
-                .status(200)
-                .json({ thumbnail, title, description, channel });
+            res.setHeader("Content-Type", "application/json");
+            const filteredFormat =
+                format && format !== "none"
+                    ? formats.filter((element) => element.ext === format)
+                    : [];
+
+            return res.status(200).json({
+                thumbnail,
+                title,
+                description,
+                channel,
+                formats: filteredFormat,
+            });
         })
         .catch((err) => {
             res.status(500).send("Something went wrong!");

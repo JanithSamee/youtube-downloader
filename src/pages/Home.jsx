@@ -6,25 +6,41 @@ import { getVideoData } from "../util/api";
 import Navbar from "../components/Navbar";
 
 export default function Home() {
+    const VideoFormats = ["none", "mp4", "m4a", "flv", "mkv", "webm"];
+
     const [url, setUrl] = createSignal("");
     const [videoData, setvideoData] = createSignal("");
     const [loading, setloading] = createSignal(false);
     const [error, seterror] = createSignal("");
     const [formats, setFormats] = createSignal([]);
+    const [selectedFormat, setselectedFormat] = createSignal("mp4");
+
+    function handleCheckBoxChange(event) {
+        const format = event.target.value;
+        const checked = event.target.checked;
+
+        if (checked) {
+            setselectedFormat(format);
+        } else {
+            setselectedFormat("null");
+        }
+    }
 
     async function handleDownload(event) {
         try {
             event.preventDefault();
             setloading(true);
-            const response = await getVideoData(url);
+            const response = await getVideoData(url, selectedFormat);
             const data = response.data;
             setloading(false);
             const { formats, ...rest } = data;
             setFormats(formats);
             setvideoData(rest);
-            setUrl("");
+            setUrl(url());
         } catch (error) {
-            seterror(error.message || "Something went wrong!");
+            let errorText =
+                (error.response && error.response.data) || error.message;
+            seterror(errorText || "Something went wrong!");
             setloading(false);
         }
     }
@@ -64,6 +80,33 @@ export default function Home() {
                                                 setUrl(e.target.value)
                                             }
                                         />
+                                    </div>
+                                    <div class="row mt-2">
+                                        {VideoFormats.map((format) => (
+                                            <div class="col-auto" key={format}>
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        id={`check-${format}`}
+                                                        value={format}
+                                                        checked={
+                                                            selectedFormat() ===
+                                                            format
+                                                        }
+                                                        onChange={
+                                                            handleCheckBoxChange
+                                                        }
+                                                    />
+                                                    <label
+                                                        class="form-check-label"
+                                                        for={`check-${format}`}
+                                                    >
+                                                        {format.toUpperCase()}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                     <button
                                         type="submit"
