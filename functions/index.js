@@ -33,10 +33,8 @@ app.get("/api/download", (req, res) => {
 
     youtubeDl(youtubeLink, options)
         .then((output) => {
-            // const _formats = output.formats.filter(
-            //     (format) => format.ext === "m"
-            // );
-            return res.json(output);
+            console.log(output);
+            return res.status(200).json(output);
         })
         .catch((err) => {
             res.status(500).send("Something went wrong!");
