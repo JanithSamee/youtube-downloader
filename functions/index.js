@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const youtubeDl = require("youtube-dl-exec");
 const cors = require("cors");
+const serverless = require("serverless-http");
 
 const app = express();
 
@@ -45,3 +46,4 @@ app.get("/api/download", (req, res) => {
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
+// module.exports.handler = serverless(app);

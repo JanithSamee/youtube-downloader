@@ -1,0 +1,26 @@
+{
+    "name": "youtube-downloader",
+    "version": "0.0.0",
+    "description": "",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "serve": "vite preview",
+        "dev-start": "concurrently \"npm run server\" \"npm run client\"",
+        "server": "cd functions && npm run dev",
+        "client": "npm run dev"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "concurrently": "^8.0.1",
+        "vite": "^4.1.1",
+        "vite-plugin-solid": "^2.5.0"
+    },
+    "dependencies": {
+        "@solidjs/router": "^0.8.2",
+        "axios": "^1.4.0",
+        "bootstrap": "^5.2.3",
+        "sass": "^1.62.1",
+        "solid-js": "^1.6.10"
+    }
+}
