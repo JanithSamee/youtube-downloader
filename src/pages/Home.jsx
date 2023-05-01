@@ -30,6 +30,7 @@ export default function Home() {
         try {
             event.preventDefault();
             setloading(true);
+            seterror("");
             const response = await getVideoData(url, selectedFormat);
             const data = response.data;
             setloading(false);

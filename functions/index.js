@@ -3,15 +3,12 @@ const express = require("express");
 const youtubeDl = require("youtube-dl-exec");
 const cors = require("cors");
 const serverless = require("serverless-http");
-const bodyParser = require("body-parser");
 
 const app = express();
 
 const port = process.env.PORT;
 
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(cors({ origin: "*" }));
 
 app.get("/api/download", (req, res) => {
@@ -22,6 +19,7 @@ app.get("/api/download", (req, res) => {
         noCheckCertificates: true,
         noWarnings: true,
         preferFreeFormats: true,
+        format: "mp4",
         addHeader: ["referer:youtube.com", "user-agent:googlebot"],
     };
 
@@ -44,7 +42,7 @@ app.get("/api/download", (req, res) => {
                     ? formats.filter((element) => element.ext === format)
                     : [];
 
-            return res.status(200).json({
+            return res.json({
                 thumbnail,
                 title,
                 description,
