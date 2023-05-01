@@ -36,7 +36,7 @@ app.get("/api/download", (req, res) => {
             // const _formats = output.formats.filter(
             //     (format) => format.ext === "m"
             // );
-            return res.send(output);
+            return res.json(output);
         })
         .catch((err) => {
             res.status(500).send("Something went wrong!");

@@ -17,5 +17,8 @@
   },
   "author": "janithsamee",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
