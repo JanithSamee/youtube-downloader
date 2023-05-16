@@ -11,6 +11,10 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "public")));
+
 app.get("/api/download", (req, res) => {
     const { videoUrl, videoId, format } = req.query;
 
@@ -55,6 +59,9 @@ app.get("/api/download", (req, res) => {
         });
 });
 
+app.get("*", (req, res) => {
+    res.sendFile(path.join(path.join(__dirname, "public"), "index.html"));
+});
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });

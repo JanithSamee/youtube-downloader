@@ -8,6 +8,7 @@
         "serve": "vite preview",
         "dev-start": "concurrently \"npm run server\" \"npm run client\"",
         "server": "cd functions && npm run dev",
+        "start": "npm run build && cd functions && npm run dev",
         "client": "npm run dev"
     },
     "license": "MIT",
